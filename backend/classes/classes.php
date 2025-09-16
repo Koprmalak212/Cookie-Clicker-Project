@@ -23,8 +23,22 @@ public bool $GameRunning;
 public $LastSave;
 public $AutoSaveInterval;
 
+function StartGame(){
+}
 
+function UpdateGame(){
+}
 
+function SaveGame(){
+}
+function LoadGame(){
+}
+
+function HandleClick(){
+}
+
+function BuyAutoClicker($AutoClickerType){
+}
 
 };
 
