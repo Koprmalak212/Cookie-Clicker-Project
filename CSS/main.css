@@ -1,48 +1,76 @@
-body{
-    padding: 0;
+/* General layout */
+body {
     margin: 0;
-    background-image: url("../images/pond.png");
-    background-size: 100% 100%;
-    overflow-y: hidden;
-}
-
-.parent {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: repeat(5, 1fr);
-    height: 100vh;
-}
-
-.duck {
-    grid-column: span 2 / span 2;
-    grid-row: span 5 / span 5;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #b3e5fc, #f1f8e9);
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    img{
-        max-width: 100%;
-        cursor: pointer;
-        clip-path: ellipse(40% 40% at 50% 50%);
-        margin: 0;
-        padding: 0;
-    }
+    text-align: center;
+    height: 100vh;
+    overflow: hidden;
 }
 
-
-.div2 {
-    grid-column: span 3 / span 3;
-    grid-row: span 5 / span 5;
-    grid-column-start: 3;
-
+/* Header for score */
+header {
+    margin: 20px 0;
 }
 
-.div3 {
-    grid-column: span 2 / span 2;
-    grid-row: span 5 / span 5;
-    grid-column-start: 6;
-    max-width: 100%;
-    cursor: pointer;
+h1 {
     margin: 0;
-    padding: 0;
+    font-size: 2rem;
+    color: #333;
+}
+
+#score, #qps {
+    margin-top: 8px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #444;
+}
+
+/* Game area */
+.game-area {
+    position: relative;
+    display: inline-block;
+}
+
+/* Main duck click target */
+.duck {
+    width: 250px;
+    height: auto;
+    cursor: pointer;
+
+    /* Clip-path to avoid clicking transparent corners */
+    -webkit-clip-path: ellipse(45% 42% at 50% 50%);
+    clip-path: ellipse(45% 42% at 50% 50%);
+
+    transition: transform 0.1s ease; /* click feedback */
+}
+
+.duck:active {
+    transform: scale(0.95);
+}
+
+/* Floating +1 quack text */
+.floating-text {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #2c3e50;
+    animation: floatUp 1s ease-out forwards;
+    pointer-events: none;
+}
+
+@keyframes floatUp {
+    0% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-60px);
+    }
 }
