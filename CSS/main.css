@@ -1,38 +1,44 @@
-/* General layout */
-* { box-sizing: border-box; }
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #b3e5fc, #f1f8e9);
+    font-family: "Comic Sans MS", cursive;
+    background: #0a3d62; /* deep blue */
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     height: 100vh;
     overflow: hidden;
+    position: relative;
 }
 
-/* Header */
-header {
-    margin: 20px 0;
+/* Counter */
+#counter {
+    position: relative;
+    z-index: 10;
+    margin-top: 20px;
 }
-h1 {
+#counter h1 {
     margin: 0;
     font-size: 2rem;
-    color: #333;
+    color: #fff;
 }
 #score, #qps {
     margin-top: 8px;
     font-size: 1.2rem;
     font-weight: bold;
-    color: #444;
+    color: #fff;
 }
 
 /* Game area */
 .game-area {
+    backdrop-filter: blur(100px);
+    border: 5px solid #ff0000;
+    border-radius: 25px;
     position: relative;
     display: inline-block;
     padding: 30px;
+    margin-top: 20px;
+    z-index: 5;
 }
 
 /* Duck image */
@@ -42,23 +48,35 @@ h1 {
     clip-path: ellipse(45% 42% at 50% 50%);
     transition: transform 0.1s ease;
 }
-.duck:active {
-    transform: scale(0.95);
-}
+.duck:active { transform: scale(0.95); }
 
 /* Floating +1 quack text */
 .floating-text {
     position: absolute;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-weight: bold;
-    color: #2c3e50;
+    color: #ffffff;
     animation: floatUp 1s ease-out forwards;
     pointer-events: none;
     white-space: nowrap;
     transform: translateX(-50%);
 }
-
 @keyframes floatUp {
     0% { opacity: 1; transform: translateX(-50%) translateY(0); }
     100% { opacity: 0; transform: translateX(-50%) translateY(-60px); }
 }
+
+/* Upgrades */
+#upgrades {
+    width: 20vw;
+    font-size: 1.2rem;
+    border: 5px solid #2c3e50;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 20vh;
+    right: 15vw;
+    z-index: 10;
+}
+#upgrades p { margin: 10px; }
