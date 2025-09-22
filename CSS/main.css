@@ -1,0 +1,48 @@
+body{
+    padding: 0;
+    margin: 0;
+    background-image: url("../images/pond.png");
+    background-size: 100% 100%;
+    overflow-y: hidden;
+}
+
+.parent {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    height: 100vh;
+}
+
+.duck {
+    grid-column: span 2 / span 2;
+    grid-row: span 5 / span 5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    img{
+        max-width: 100%;
+        cursor: pointer;
+        clip-path: ellipse(40% 40% at 50% 50%);
+        margin: 0;
+        padding: 0;
+    }
+}
+
+
+.div2 {
+    grid-column: span 3 / span 3;
+    grid-row: span 5 / span 5;
+    grid-column-start: 3;
+
+}
+
+.div3 {
+    grid-column: span 2 / span 2;
+    grid-row: span 5 / span 5;
+    grid-column-start: 6;
+    max-width: 100%;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+}
