@@ -1,6 +1,12 @@
+
+let Player1 = new Player('Big Cooie',[])
+
+
+
 document.addEventListener("DOMContentLoaded", () => {
     let quacks = 0;
     let lastQuacks = 0;
+
 
     const duck = document.getElementById("duck");
     const score = document.getElementById("score");
