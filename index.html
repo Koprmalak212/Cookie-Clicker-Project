@@ -18,6 +18,7 @@
 <main>
     <div class="game-area">
         <img src="images/bob.png" alt="Duck" class="duck" id="duck">
+        
     </div>
 </main>
 
@@ -32,80 +33,9 @@
     <p>Upgrade</p>
 </div>
 
-<script>
 
-
-
-class Player {
-     Name;
-     TotalPoints = 0;
-     LifetimePoints = 0;
-     PointsPerClick = 0;
-
-     TotalClicksMade = 0;
-     ClicksThisSession = 0;
-
-     AutoClickers = 0;
-     Upgrades = 0;
-     LastSaveTime = 0;
-     AutoClickers = []
-
-     constructor(Name,AutoClickers){
-          this.Name = Name,
-          this.AutoClickers = AutoClickers
-     }
-};
-
-class Enemy extends Player{
-     EnemyHealth = 100;
-
-     constructor(Name,AutoClickers,EnemyHealth){
-          super(Name,AutoClickers)
-          this.EnemyHealth = EnemyHealth
-     }
-}
-
-class NPC extends Player{
-     AI;
-
-    constructor(Name,AutoClickers,AI){
-          super(Name,AutoClickers)
-          this.AI = AI
-     }
-}
-
-let Plr1 =  new Enemy('Eletro',{},100)
-let NPC1 = new NPC('NPC',{},{})
-
-console.log(Plr1)
-
-
-class CustomAutoclicker {
-     Name = '';
-     Total = 0;
-     ValuePerClicker = 0;
-     constructor(Name,Value){
-          this.Name = Name
-          this.ValuePerClicker = Value
-     }
-
-     AddClickers(Amount){
-         this.Total +=Amount
-         console.log('Remove  money for buying')
-     };
-
-     SellClickers(Amount){
-          if (this.Total-Amount > 0){
-               this.Total-=Amount
-               console.log("Add money for selling")
-          }
-     };
-}
-
-
-
-</script>
 
 <script src="scripts/main.js"></script>
+<script src="backend/classes/classes.js"></script>
 </body>
 </html>

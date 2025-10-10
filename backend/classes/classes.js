@@ -1,137 +1,85 @@
-
-
+const duck = document.getElementById("Duck");
+const score = document.getElementById("score");
+const qpsDisplay = document.getElementById("qps");
+const gameArea = document.querySelector(".game-area");
 
 class Player {
-     Name;
-     TotalPoints = 0;
-     LifetimePoints = 0;
-     PointsPerClick = 0;
+  Name;
+  TotalPoints = 0;
+  LifetimePoints = 0;
+  PointsPerClick = 1;
+  CurrentPoints = 0;
+  TotalClicksMade = 0;
+  ClicksThisSession = 0;
 
-     TotalClicksMade = 0;
-     ClicksThisSession = 0;
+  Upgrades = 0;
+  LastSaveTime = 0;
+  AutoClickers = [];
 
-     AutoClickers = 0;
-     Upgrades = 0;
-     LastSaveTime = 0;
-     AutoClickers = []
+  constructor(Name, AutoClickers) {
+    this.Name = Name;
+    this.AutoClickers = AutoClickers;
+  }
 
-     constructor(Name,AutoClickers){
-          this.Name = Name,
-          this.AutoClickers = AutoClickers
-     }
-};
+  click(Value) {
+    this.TotalClicksMade++;
+    this.CurrentPoints += Value;
+    this.ClicksThisSession++;
 
-class Enemy extends Player{
-     EnemyHealth = 100;
+    score.textContent
 
-     constructor(EnemyHealth){
-          super(this.Name,this.AutoClickers)
-          this.EnemyHealth = EnemyHealth
-     }
+
+
+  }
 }
-
-class NPC extends Player{
-     AI;
-
-     constructor(AI){
-          super(this.Name,this.AutoClickers)
-          this.AI = {}
-     }
-}
-
-let Plr1 = Enemy('Eletro',{},100)
-let NPC1 = NPC('NPC',{},{})
-
-console.log(Plr1)
-
 
 class CustomAutoclicker {
-     Name = '';
-     Total = 0;
-     ValuePerClicker = 0;
-     constructor(Name,Value){
-          this.Name = Name
-          this.ValuePerClicker = Value
-     }
+  Name = "";
+  Total = 0;
+  ValuePerClicker = 0;
 
-     AddClickers(Amount){
-         this.Total +=Amount
-         console.log('Remove  money for buying')
-     };
+  constructor(Name, Value) {
+    this.Name = Name;
+    this.ValuePerClicker = Value;
+  }
 
-     SellClickers(Amount){
-          if (this.Total-Amount > 0){
-               this.Total-=Amount
-               console.log("Add money for selling")
-          }
-     };
+  AddClickers(Amount) {
+    this.Total += Amount;
+    console.log("Remove  money for buying");
+  }
+
+  SellClickers(Amount) {
+    if (this.Total - Amount > 0) {
+      this.Total -= Amount;
+      console.log("Add money for selling");
+    }
+  }
 }
 
-class AutoclickerMain{
-     
-}
+let Clicker1 = new CustomAutoclicker("Click", 1);
+Clicker1.ValuePerClicker = 1;
+
+class AutoclickerMain {}
 
 class MainGame {
-     PlayerInstance;
-     GameRunning;
+  PlayerInstance;
+  GameRunning;
 
-     LastSave;
-     AutoSaveInterval;
+  LastSave;
+  AutoSaveInterval;
 
-     StartGame(){
-     };
+  StartGame() {}
 
-     UpdateGame(){
-     };
+  UpdateGame() {}
 
-     SaveGame(){
-     };
-      LoadGame(){
-     };
+  SaveGame() {}
 
-     HandleClick(){
-     };
+  LoadGame() {}
 
-     BuyAutoClicker($AutoClickerType){
-     };
+  HandleClick() {}
 
-};
-
-
-let Constant = MainGame.new()
-Constant.StartGame()
-
-
-document.addEventListener("DOMContentLoaded")
-
-
-
-class Vehicle{
-     Name;
-     Wheels;
-     Brand;
-     Passengers
-
-     constructor(Name,Wheels,Brand,Passengers){
-          this.Name = Name
-          this.Wheels = Wheels
-          this.Brand = Brand
-          this.Passengers = Passengers;
-     }
+  BuyAutoClicker($AutoClickerType) {}
 }
 
-class Bike extends Vehicle{
-     BikeType;
-     constructor(Name,Wheels,Brand,Passengers,BikeType){
-          super(Name,Wheels,Brand,Passengers)
-         this.BikeType = BikeType
-     }
-}
-
-class Car extends Vehicle{
-     Make;
-     constructor(Name,Wheels,Brand,Passengers,Make){
-          super(Name,Wheels,Brand,Passengers)
-         this.Make = Make
-     }
-}
+let Constant = MainGame.new();
+Constant.StartGame();

@@ -1,12 +1,6 @@
-
-let Player1 = new Player('Big Cooie',[])
-
-
-
 document.addEventListener("DOMContentLoaded", () => {
     let quacks = 0;
     let lastQuacks = 0;
-
 
     const duck = document.getElementById("duck");
     const score = document.getElementById("score");
@@ -25,8 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const rect = duck.getBoundingClientRect();
         const areaRect = gameArea.getBoundingClientRect();
-        floatText.style.left = `${rect.left - areaRect.left + rect.width/2}px`;
-        floatText.style.top = `${rect.top - areaRect.top + rect.height*0.05}px`;
+        floatText.style.left = `${rect.left - areaRect.left + rect.width / 2}px`;
+        floatText.style.top = `${rect.top - areaRect.top + rect.height * 0.05}px`;
 
         gameArea.appendChild(floatText);
         setTimeout(() => floatText.remove(), 1000);
