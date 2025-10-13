@@ -1,7 +1,4 @@
-const duck = document.getElementById("Duck");
-const score = document.getElementById("score");
-const qpsDisplay = document.getElementById("qps");
-const gameArea = document.querySelector(".game-area");
+
 
 class Player {
   Name;
@@ -21,19 +18,32 @@ class Player {
     this.AutoClickers = AutoClickers;
   }
 
-  click(Value) {
+
+
+  click(Value,score,duck,gameArea) {
     this.TotalClicksMade++;
     this.CurrentPoints += Value;
     this.ClicksThisSession++;
 
-    score.textContent
+    score.textContent = `Quacks: ${this.CurrentPoints}`;
+    // Floating "+1 Quack" text
+    const floatText = document.createElement("div");
+    floatText.className = "floating-text";
+    floatText.textContent = "+1 Quack";
 
+    const rect = duck.getBoundingClientRect();
+    const areaRect = gameArea.getBoundingClientRect();
+    floatText.style.left = `${rect.left - areaRect.left + rect.width / 2}px`;
+    floatText.style.top = `${rect.top - areaRect.top + rect.height * 0.05}px`;
+
+    gameArea.appendChild(floatText);
+    setTimeout(() => floatText.remove(), 1000);
 
 
   }
 }
 
-class CustomAutoclicker {
+class AutoClickerMaker {
   Name = "";
   Total = 0;
   ValuePerClicker = 0;
@@ -56,10 +66,16 @@ class CustomAutoclicker {
   }
 }
 
-let Clicker1 = new CustomAutoclicker("Click", 1);
+let Clicker1 = new AutoClickerMaker("Breat Feeder", 1);
 Clicker1.ValuePerClicker = 1;
 
-class AutoclickerMain {}
+class UseAutoClicker {
+  Name = "";
+  Total = 0;
+  ValuePerClicker = 0;
+
+  
+}
 
 class MainGame {
   PlayerInstance;
@@ -81,5 +97,30 @@ class MainGame {
   BuyAutoClicker($AutoClickerType) {}
 }
 
-let Constant = MainGame.new();
-Constant.StartGame();
+let Player1 = new Player("Player1", [Clicker1]);
+
+// QPS updater
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  let quacks = 0;
+  let lastQuacks = 0;
+
+  const duck = document.getElementById("duck");
+  const score = document.getElementById("score");
+  const qpsDisplay = document.getElementById("qps");
+  const gameArea = document.querySelector(".game-area");
+
+  // Duck click handler
+  duck.addEventListener('click', () => {
+    quacks++;
+    Player1.click(1, score, duck, gameArea);
+  })
+
+  // QPS updater
+  setInterval(() => {
+    qpsDisplay.textContent = `Quacks per second: ${quacks - lastQuacks}`;
+    lastQuacks = quacks;
+  }, 1000);
+});
+
