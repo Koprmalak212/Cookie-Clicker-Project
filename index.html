@@ -1,41 +1,58 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Duck Clicker: “Unlimited Quacks”</title>
-    <link rel="stylesheet" href="CSS/main.css">
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Duckie Clicker</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
 
-<div id="counter">
-    <h1>Duckie Clicker</h1>
-    <div id="score">Quacks: 0</div>
-    <div id="qps">Quacks per second: 0</div>
-</div>
-
-<main>
-    <div class="game-area">
-        <img src="images/bob.png" alt="Duck" class="duck" id="duck">
-        
+<div class="parent">
+    <div class="panel div1">
+        <h2>⚙️ Settings</h2>
+        <button class="btn">Reset Game</button>
+        <button class="btn">Toggle Music</button>
     </div>
-</main>
 
-<div id="upgrades">
-    <p>Upgrade</p>
-    <p>Upgrade</p>
-    <p>Upgrade</p>
-    <p>Upgrade</p>
-    <p>Upgrade</p>
-    <p>Upgrade</p>
-    <p>Upgrade</p>
-    <p>Upgrade</p>
+    <div class="panel div2">
+        <div class="center-section">
+            <h1 class="title">Duckie Clicker 🦆</h1>
+            <p class="stat">Quacks: <span id="quacks">0</span></p>
+            <p class="stat">QPS: <span id="qps">0</span></p>
+            <img id="duck" src="images/bob.png" alt="Duck" title="Click me!">
+        </div>
+    </div>
+
+    <div class="panel div3">
+        <h2>🛒 Upgrades Shop</h2>
+        <ul class="shop-list">
+            <li>Avarage Duck, +1 QPS - 50 Quacks</li>
+            <li>Duck Mafia, They quack, you obey – 500 Quacks</li>
+            <li>24K Quacker, Gold duck flexes – 1,500 Quacks</li>
+            <li>Duck Co.™, Corporate quacks – 5,000 Quacks</li>
+            <li>Big Pond Energy, Ducks everywhere – 15,000 Quacks</li>
+            <li>Quackademy, Ducks got smarter – 50,000 Quacks</li>
+            <li>Schrödinger’s Duck, Quacks or not – 150,000 Quacks</li>
+            <li>Quacklord, Your soul is Quack – 500,000 Quacks</li>
+            <li>Duckpocalypse, Evil Ducks – 1,000,000 Quacks</li>
+            <li>Quackzilla, Quack and burn, mortal – 2,000,000 Quacks</li>
+        </ul>
+    </div>
+
+    <div class="panel div4">
+        <h2>⬆️ Active Upgrades</h2>
+        <ul class="upgrade-list">
+            <li>No upgrades yet...</li>
+        </ul>
+    </div>
 </div>
 
-
-
-<script src="scripts/main.js"></script>
-<script src="backend/classes/classes.js"></script>
 </body>
 </html>
