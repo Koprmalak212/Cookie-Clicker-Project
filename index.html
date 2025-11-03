@@ -1,34 +1,26 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Duckie Clicker</title>
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <title>Duck Clicker: “Unlimited Quacks”</title>
+    <link rel="stylesheet" href="CSS/main.css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
 
-<div class="parent">
-    <div class="panel div1">
-        <h2>⚙️ Settings</h2>
-        <button class="btn">Reset Game</button>
-        <button class="btn">Toggle Music</button>
-    </div>
+<div id="counter">
+    <h1>Duckie Clicker</h1>
+    <div id="score">Quacks: 0</div>
+    <div id="qps">Quacks per second: 0</div>
+</div>
 
-    <div class="panel div2">
-        <div class="center-section">
-            <h1 class="title">Duckie Clicker 🦆</h1>
-            <p class="stat">Quacks: <span id="quacks">0</span></p>
-            <p class="stat">QPS: <span id="qps">0</span></p>
-            <img id="duck" src="images/bob.png" alt="Duck" title="Click me!">
-        </div>
+<main>
+    <div class="game-area">
+        <img src="images/bob.png" alt="Duck" class="duck" id="duck">
+        
     </div>
+</main>
 
     <div class="panel div3">
         <h2>🛒 Upgrades Shop</h2>
