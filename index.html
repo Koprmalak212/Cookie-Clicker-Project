@@ -2,37 +2,189 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Duck Clicker: “Unlimited Quacks”</title>
-    <link rel="stylesheet" href="CSS/main.css">
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duck Clicker Deluxe 🦆</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .pop { animation: pop 0.15s ease-out; }
+        @keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+        body::before {
+            content: "";
+            position: fixed;
+            top:0; left:0;
+            width:100%; height:100%;
+            background: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index:-1;
+        }
+    </style>
 </head>
-<body>
+<body class="bg-gradient-to-b from-yellow-300 via-amber-200 to-yellow-100 text-slate-900 min-h-screen flex flex-col items-center justify-start p-6 font-sans">
 
-<div id="counter">
-    <h1>Duckie Clicker</h1>
-    <div id="score">Quacks: 0</div>
-    <div id="qps">Quacks per second: 0</div>
-</div>
+<h1 class="text-5xl font-extrabold mb-8 text-amber-700 drop-shadow-lg tracking-wide text-center">🦆 Quack Clicker Deluxe 🦆</h1>
 
-<main>
-    <div class="game-area">
-        <img src="images/bob.png" alt="Duck" class="duck" id="duck">
-        
+<div class="flex flex-col lg:flex-row gap-6 w-full max-w-6xl">
+
+    <!-- Shop -->
+    <div class="flex-1 bg-white/30 backdrop-blur-lg rounded-3xl shadow-2xl p-6 border border-white/50">
+        <h2 class="text-3xl font-bold mb-4 text-amber-800">🛒 Upgrades</h2>
+        <div id="shopButtons" class="grid grid-cols-1 gap-4"></div>
+        <button id="clearSession" class="mt-6 w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-xl font-bold shadow-md transition">🧹 Clear Session</button>
     </div>
-</main>
 
-<div id="upgrades">
-    <p>Upgrade</p>
-    <p>Upgrade</p>
-    <p>Upgrade</p>
-    <p>Upgrade</p>
-    <p>Upgrade</p>
-    <p>Upgrade</p>
-    <p>Upgrade</p>
-    <p>Upgrade</p>
+    <!-- Duck Panel -->
+    <div class="flex-1 flex flex-col items-center justify-center bg-white/30 backdrop-blur-lg rounded-3xl shadow-2xl p-6 border border-white/50">
+        <p class="text-4xl font-bold mb-6 text-amber-800 drop-shadow text-center">Ducks: <span id="count">0</span></p>
+        <button id="duck" class="w-64 h-64 rounded-full overflow-hidden shadow-2xl border-8 border-yellow-400 hover:scale-105 active:scale-95 transition-all">
+            <img src="images/bob.png" alt="Duck" class="w-full h-full object-cover">
+        </button>
+        <p class="mt-4 text-lg text-amber-800 font-semibold" id="perSecDisplay">+0/sec</p>
+    </div>
+
+    <!-- Current Upgrades -->
+    <div class="flex-1 bg-white/30 backdrop-blur-lg rounded-3xl shadow-2xl p-6 border border-white/50">
+        <h2 class="text-3xl font-bold mb-4 text-amber-800">🎯 Current Upgrades</h2>
+        <div id="upgradeList" class="space-y-2"></div>
+        <p class="mt-6 text-sm text-amber-800 opacity-80">Progress is saved in session storage.</p>
+    </div>
+
 </div>
 
-<script src="backend/classes/classes.js"></script>
+<script>
+    // Upgrade definitions
+    const upgrades = [
+        { id: 'beak', name: 'Bigger Beak', emoji: '💪', baseCost: 25, type: 'perClick', val: 1 },
+        { id: 'rubber', name: 'Rubber Duck', emoji: '🦆', baseCost: 50, type: 'perClick', val: 2 },
+        { id: 'feather', name: 'Golden Feather', emoji: '✨', baseCost: 250, type: 'perClickMult', val: 2 },
+        { id: 'auto', name: 'Auto Clicker', emoji: '🕒', baseCost: 10, type: 'perSec', val: 1 },
+        { id: 'farm', name: 'Duck Farm', emoji: '🏡', baseCost: 100, type: 'perSec', val: 5 },
+        { id: 'pond', name: 'Pond', emoji: '🌊', baseCost: 150, type: 'perSec', val: 10 },
+        { id: 'hat', name: 'Fancy Hat', emoji: '🎩', baseCost: 300, type: 'perClickMult', val: 2 }
+    ];
+
+    // State
+    let state = JSON.parse(sessionStorage.getItem('duckState')) || {
+        ducks: 0,
+        perClick: 1,
+        perClickMult: 1,
+        perSec: 0,
+        bought: {}
+    };
+
+    // DOM elements
+    const duck = document.getElementById('duck');
+    const count = document.getElementById('count');
+    const upgradeList = document.getElementById('upgradeList');
+    const shopButtons = document.getElementById('shopButtons');
+    const clearBtn = document.getElementById('clearSession');
+    const perSecDisplay = document.getElementById('perSecDisplay');
+
+    // Calculate current cost (scaling)
+    function getUpgradeCost(up) {
+        const timesBought = state.bought[up.id] || 0;
+        let multiplier = 1.5;
+        if (up.type === 'perSec') multiplier = 1.7;
+        if (up.type === 'perClickMult') multiplier = 2;
+        return Math.ceil(up.baseCost * Math.pow(multiplier, timesBought));
+    }
+
+    // Sort upgrades by current cost
+    function getSortedUpgrades() {
+        return upgrades.sort((a,b)=>getUpgradeCost(a) - getUpgradeCost(b));
+    }
+
+    // Render shop
+    function renderShop() {
+        shopButtons.innerHTML = '';
+        getSortedUpgrades().forEach(up => {
+            const btn = document.createElement('button');
+            btn.id = up.id;
+            const cost = getUpgradeCost(up);
+            btn.innerHTML = `
+      <div class="flex items-center justify-between">
+        <span class="text-2xl mr-2">${up.emoji}</span>
+        <span class="font-semibold">${up.name}</span>
+        <span class="font-bold ml-2">${cost}</span>
+      </div>
+    `;
+            btn.className = `
+      w-full bg-gradient-to-r from-yellow-400 to-yellow-300
+      hover:scale-105 hover:shadow-xl transition transform py-3 px-4 rounded-2xl
+      font-bold shadow-md text-black flex items-center justify-between
+    `;
+            btn.disabled = state.ducks < cost;
+            btn.addEventListener('click', () => buyUpgrade(up));
+            shopButtons.appendChild(btn);
+        });
+    }
+
+    // Buy upgrade
+    function buyUpgrade(up) {
+        const cost = getUpgradeCost(up);
+        if (state.ducks >= cost) {
+            state.ducks -= cost;
+            state.bought[up.id] = (state.bought[up.id] || 0) + 1;
+
+            if (up.type === 'perClick') state.perClick += up.val;
+            if (up.type === 'perClickMult') state.perClickMult *= up.val;
+            if (up.type === 'perSec') state.perSec += up.val;
+
+            updateDisplay();
+            renderShop();
+        }
+    }
+
+    // Duck click
+    duck.addEventListener('click', () => {
+        state.ducks += state.perClick * state.perClickMult;
+        duck.classList.add('pop');
+        setTimeout(() => duck.classList.remove('pop'), 150);
+        updateDisplay();
+        renderShop();
+    });
+
+    // Clear session
+    clearBtn.addEventListener('click', () => {
+        sessionStorage.clear();
+        location.reload();
+    });
+
+    // Update upgrade list
+    function updateUpgradeList() {
+        upgradeList.innerHTML = '';
+        Object.keys(state.bought).forEach(id => {
+            const up = upgrades.find(u => u.id === id);
+            const times = state.bought[id];
+            const effect = up.type === 'perClick' ? `+${up.val}/click`
+                : up.type === 'perClickMult' ? `×${up.val}/click`
+                    : `+${up.val}/sec`;
+            upgradeList.innerHTML += `
+      <div class="bg-white/50 rounded-xl p-3 shadow-md border border-white/30">
+        <span class="font-bold">${up.name}</span> ×${times} — <span class="font-semibold">${effect}</span>
+      </div>
+    `;
+        });
+    }
+
+    // Update display
+    function updateDisplay() {
+        count.textContent = Math.floor(state.ducks);
+        perSecDisplay.textContent = `+${state.perSec}/sec`;
+        updateUpgradeList();
+        sessionStorage.setItem('duckState', JSON.stringify(state));
+    }
+
+    // Passive income
+    setInterval(() => {
+        state.ducks += state.perSec;
+        state.ducks = Math.floor(state.ducks * 1000) / 1000;
+        updateDisplay();
+        renderShop();
+    }, 1000);
+
+    // Initial render
+    renderShop();
+    updateDisplay();
+</script>
 </body>
 </html>
