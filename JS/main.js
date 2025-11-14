@@ -1,11 +1,11 @@
 const upgrades = [
-    // Click Upgrades
+    // slave workd Upgrades
     {id: 'beak', name: 'Bigger Beak', emoji: '💪', baseCost: 25, type: 'perClick', val: 1},
     {id: 'rubber', name: 'Rubber Duck', emoji: '🦆', baseCost: 50, type: 'perClick', val: 2},
     {id: 'feather', name: 'Golden Feather', emoji: '✨', baseCost: 250, type: 'perClickMult', val: 2},
     {id: 'hat', name: 'Fancy Hat', emoji: '🎩', baseCost: 300, type: 'perClickMult', val: 2},
 
-    // Autoclickers (8 total - REQUIREMENT MET)
+    // make ducks do slave labor for yoy
     {id: 'auto', name: 'Auto Clicker', emoji: '🕒', baseCost: 10, type: 'perSec', val: 1},
     {id: 'farm', name: 'Duck Farm', emoji: '🏡', baseCost: 100, type: 'perSec', val: 5},
     {id: 'pond', name: 'Pond', emoji: '🌊', baseCost: 150, type: 'perSec', val: 10},
@@ -15,7 +15,6 @@ const upgrades = [
     {id: 'portal', name: 'Duck Portal', emoji: '🌀', baseCost: 50000, type: 'perSec', val: 5000},
     {id: 'timemachine', name: 'Time Machine', emoji: '⏰', baseCost: 200000, type: 'perSec', val: 20000},
 
-    // Production Upgrades (5 unique - REQUIREMENT MET)
     {id: 'farmboost', name: 'Fertilizer', emoji: '🌱', baseCost: 500, type: 'multiplier', target: 'farm', val: 2},
     {id: 'pondboost', name: 'Water Filter', emoji: '💧', baseCost: 1000, type: 'multiplier', target: 'pond', val: 2},
     {
@@ -27,8 +26,8 @@ const upgrades = [
         target: 'factory',
         val: 2
     },
-    {id: 'mineboost', name: 'Better Drills', emoji: '🔨', baseCost: 10000, type: 'multiplier', target: 'mine', val: 2},
-    {id: 'globalboost', name: 'Efficiency Study', emoji: '📊', baseCost: 5000, type: 'globalMult', val: 1.1},
+    {id: 'mineboost', name: 'Whipped Ducks', emoji: '🔨', baseCost: 10000, type: 'multiplier', target: 'mine', val: 2},
+    {id: 'globalboost', name: 'SmarterDucks', emoji: '📊', baseCost: 5000, type: 'globalMult', val: 1.1},
 ];
 
 const duck = document.getElementById('duck');
@@ -52,7 +51,7 @@ class GameState {
 
     // Load first, else make new.
     Load() {
-        const SavedData = sessionStorage.getItem('DuckState');
+        const SavedData = localStorage.getItem('DuckState');
         if (SavedData) {
             try {
                 const Data = JSON.parse(SavedData);
@@ -79,7 +78,7 @@ class GameState {
             Bought: this.Bought,
             Multipliers: this.Multipliers
         };
-        sessionStorage.setItem('DuckState', JSON.stringify(Data));
+        localStorage.setItem('DuckState', JSON.stringify(Data));
     }
 
     // add ducks, then save game.
@@ -297,8 +296,11 @@ duck.addEventListener('click', () => {
 
 clearBtn.addEventListener('click', () => {
     if (confirm('Are you sure you want to reset your game?')) {
-        sessionStorage.clear();
+        console.log('Reached')
+        localStorage.clear();
+        Object.assign(State, new GameState());
         location.reload();
+
     }
 });
 
