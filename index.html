@@ -1,55 +1,96 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Duck Clicker Deluxe 🦆</title>
-        <script src="https://cdn.tailwindcss.com"></script>
-        <style>
-            .pop { animation: pop 0.15s ease-out; }
-            @keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
-            body::before {
-                content: "";
-                position: fixed;
-                top:0; left:0;
-                width:100%; height:100%;
-                background: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
-                background-size: 50px 50px;
-                z-index:-1;
-            }
-        </style>
-    </head>
-    <body class="bg-gradient-to-b from-yellow-300 via-amber-200 to-yellow-100 text-slate-900 min-h-screen flex flex-col items-center justify-start p-6 font-sans">
-
-    <h1 class="text-5xl font-extrabold mb-8 text-amber-700 drop-shadow-lg tracking-wide text-center">🦆 Quack Clicker Deluxe 🦆</h1>
-
-    <div class="flex flex-col lg:flex-row gap-6 w-full max-w-6xl">
-
-        <!-- Shop -->
-        <div class="flex-1 bg-white/30 backdrop-blur-lg rounded-3xl shadow-2xl p-6 border border-white/50">
-            <h2 class="text-3xl font-bold mb-4 text-amber-800">🛒 Upgrades</h2>
-            <div id="shopButtons" class="grid grid-cols-1 gap-4"></div>
-            <button id="clearSession" class="mt-6 w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-xl font-bold shadow-md transition">🧹 Clear Session</button>
-        </div>
-
-        <!-- Duck Panel -->
-        <div class="flex-1 flex flex-col items-center justify-center bg-white/30 backdrop-blur-lg rounded-3xl shadow-2xl p-6 border border-white/50">
-            <p class="text-4xl font-bold mb-6 text-amber-800 drop-shadow text-center">Ducks: <span id="count">0</span></p>
-            <button id="duck" class="w-64 h-64 rounded-full overflow-hidden shadow-2xl border-8 border-yellow-400 hover:scale-105 active:scale-95 transition-all">
-                <img src="images/bob.png" alt="Duck" class="w-full h-full object-cover">
-            </button>
-            <p class="mt-4 text-lg text-amber-800 font-semibold" id="perSecDisplay">+0/sec</p>
-        </div>
-
-        <!-- Current Upgrades -->
-        <div class="flex-1 bg-white/30 backdrop-blur-lg rounded-3xl shadow-2xl p-6 border border-white/50">
-            <h2 class="text-3xl font-bold mb-4 text-amber-800">🎯 Current Upgrades</h2>
-            <div id="upgradeList" class="space-y-2"></div>
-            <p class="mt-6 text-sm text-amber-800 opacity-80">Progress is saved in local storage.</p>
-        </div>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duck Clicker Deluxe 🎄🦆</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .pop { animation: pop 0.15s ease-out; }
+        @keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+        body::before { content: ""; position: fixed; top:0; left:0; width:100%; height:100%; background: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 50px 50px; z-index:-1; transition: 0.4s ease; }
+        .snowflake { position: fixed; top: -10vh; color: white; font-size: 1rem; opacity: 0.8; user-select: none; pointer-events: none; animation: snow linear infinite; }
+        @keyframes snow { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
+        .upgrade-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; width: 100%; overflow: visible; }
+        .upgrade-card { background: rgba(255, 255, 255, 0.55); backdrop-filter: blur(8px); padding: 14px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.45); box-shadow: 0 4px 16px rgba(0,0,0,0.08); font-weight: 600; font-size: 1rem; text-align: center; transition: 0.15s ease; }
+        .upgrade-card:hover { transform: scale(1.03); background: rgba(255, 255, 255, 0.75); }
+    </style>
+</head>
+<body class="bg-gradient-to-b from-yellow-300 via-amber-200 to-yellow-100 text-slate-900 min-h-screen flex flex-col items-center p-6 font-sans transition-all duration-500" id="bodyRoot">
+<h1 class="text-5xl font-extrabold mb-8 text-amber-700 drop-shadow-lg tracking-wide text-center">🦆 Quack Clicker Deluxe 🦆</h1>
+<button id="themeToggle" class="mb-6 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl font-bold shadow-lg transition">🎄 Toggle Christmas Mode</button>
+<div class="flex flex-col lg:flex-row gap-6 w-full max-w-6xl">
+    <div class="flex-1 bg-white/30 backdrop-blur-lg rounded-3xl shadow-2xl p-6 border border-white/50">
+        <h2 class="text-3xl font-bold mb-4 text-amber-800">🛒 Upgrades</h2>
+        <div id="shopButtons" class="grid grid-cols-1 gap-4"></div>
+        <button id="clearSession" class="mt-6 w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl font-bold shadow-md transition">🧹 Clear Session</button>
     </div>
+    <div class="flex-1 flex flex-col items-center justify-center bg-white/30 backdrop-blur-lg rounded-3xl shadow-2xl p-6 border border-white/50">
+        <p class="text-4xl font-bold mb-6 text-amber-800 drop-shadow text-center">Ducks: <span id="count">0</span></p>
+        <button id="duck" class="w-64 h-64 rounded-full overflow-hidden shadow-2xl border-8 border-yellow-400 hover:scale-105 active:scale-95 transition-all">
+            <img id="duckImg" src="images/bob.png" alt="Duck" class="w-full h-full object-cover">
+        </button>
+        <p class="mt-4 text-lg text-amber-800 font-semibold" id="perSecDisplay">+0/sec</p>
+    </div>
+    <div class="flex-1 bg-white/30 backdrop-blur-lg rounded-3xl shadow-2xl p-6 border border-white/50">
+        <h2 class="text-3xl font-bold mb-4 text-amber-800">🎯 Current Upgrades</h2>
+        <div id="upgradeList" class="upgrade-grid"></div>
+        <p class="mt-6 text-sm text-amber-800 opacity-80">Progress is saved in local storage.</p>
+    </div>
+</div>
+<script>
+    let winterMode = false;
+    let snowInterval;
 
-    <script src="JS/main.js"></script>
-    </body>
-    </html>
+    function createSnowflake() {
+        if (!winterMode) return;
+        const snow = document.createElement("div");
+        snow.classList.add("snowflake");
+        snow.textContent = ["❄","✦","✧","★"][Math.floor(Math.random()*4)];
+        snow.style.left = Math.random() * 100 + "vw";
+        snow.style.animationDuration = 4 + Math.random() * 6 + "s";
+        snow.style.fontSize = (10 + Math.random() * 20) + "px";
+        document.body.appendChild(snow);
+        setTimeout(() => snow.remove(), 10000);
+    }
+
+    function setChristmasButtons(on) {
+        const buttons = document.querySelectorAll('button');
+        if (on) {
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-green-600','hover:bg-green-700','border-red-400');
+                btn.classList.add('bg-red-600','hover:bg-red-700','border-green-400');
+            });
+        } else {
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-red-600','hover:bg-red-700','border-green-400');
+                buttons.forEach(btn => {
+                    btn.classList.add('bg-green-600','hover:bg-green-700','border-red-400');
+                });
+            });
+        }
+    }
+
+    document.getElementById("themeToggle").addEventListener("click", () => {
+        winterMode = !winterMode;
+        const body = document.getElementById("bodyRoot");
+        const duckImg = document.getElementById("duckImg");
+
+        if (winterMode) {
+            body.classList.remove("from-yellow-300", "via-amber-200", "to-yellow-100");
+            body.classList.add("from-red-700", "via-green-600", "to-red-400", "text-white");
+            duckImg.src = "images/winter_bob.png";
+            setChristmasButtons(true);
+            snowInterval = setInterval(createSnowflake, 200);
+        } else {
+            body.classList.add("from-yellow-300", "via-amber-200", "to-yellow-100");
+            body.classList.remove("from-red-700", "via-green-600", "to-red-400", "text-white");
+            duckImg.src = "images/bob.png";
+            setChristmasButtons(false);
+            clearInterval(snowInterval);
+        }
+    });
+</script>
+<script src="JS/main.js"></script>
+</body>
+</html>
